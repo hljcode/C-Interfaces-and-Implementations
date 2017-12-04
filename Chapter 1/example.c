@@ -52,9 +52,11 @@ int getword(FILE *fp,char *buf,int size)
     for(;c!=EOF&&!isspace(c);c=getc(fp))
     {
         if(i<size-1)
-            buf[i++]=c;
+            buf[i++]=tolower(c);
     }
     if(i<size)
         buf[i]='\0';
+    if(c!=EOF)
+        ungetc(c,fp);//eg:push back the new line;
     return buf[0]!='\0';
 }
