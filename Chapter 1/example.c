@@ -31,15 +31,22 @@ void doubleword(char *name,FILE *fp)
     char prev[128],word[128];
     prev[0]='\0';
     linenum=1;
+    int flag,preline;
+    flag=0;
+    preline=linenum;
     while(getword(fp,word,sizeof(word)))
     {
-        if(isalpha(word[0])&&strcmp(word,prev)==0)
+        if(isalpha(word[0])&&!flag&&preline==linenum&&strcmp(word,prev)==0)
         {
             if(name)
                 printf("%s:",name);
             printf("%d: %s\n",linenum,word);
+            flag=1;
         }
+        else if(strcmp(word,prev)|preline!=linenum)
+            flag=0;
         strcpy(prev,word);
+        preline=linenum;
     }
 }
 int getword(FILE *fp,char *buf,int size)
